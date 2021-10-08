@@ -16,11 +16,11 @@ class AdminRegisterController extends Controller
         $this->validate($request,[
     		'txtEmail' => 'unique:users,email',
             'txtName' => 'required',
-            'txtPass' => 'required',
+            'txtPassword' => 'required',
             'txtEmail' => 'required'
     	],[
     		"txtEmail.unique"    => "Email is exist",
-            "txtPass.unique"    => "Password can't empty",
+            "txtPassword.required"    => "Password can't empty",
             "txtName.required" => "Name can't empty",
             "txtEmail.required" => "Email can't empty"
     	]);

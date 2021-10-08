@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Category;
 
 class PostController extends Controller
 {
@@ -25,6 +26,13 @@ class PostController extends Controller
 
     }
 
+    public function getform() {
+        $post = new Post();
+        $cate =  Category::all();
+       //dd($cate->toArray());
+        return view('admin.post.create',compact('post','cate'));
+
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -32,11 +40,11 @@ class PostController extends Controller
      */
     public function create()
     {
-        die('ff');
+       
         // if ($id && !$request) {
-        //     $post = Post::find($id);
+        $post = new Post();
         //     dd($post);
-        //     return view('admin.post.create',compact('$post'));
+           return view('admin.post.create',compact('$post'));
         // }
 
         // if(!$id && $request) {

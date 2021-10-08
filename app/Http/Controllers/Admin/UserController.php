@@ -14,12 +14,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(3);
+        $users = User::paginate(15);
         return view('users.index',compact('users'));
     }
     
     public function getform() {
-        return view('users.create');
+        $user = new User();
+        return view('users.create', compact('user'));
+
     }
     public function create(Request $request)
     {
@@ -27,24 +29,31 @@ class UserController extends Controller
         $this->validate($request,[
     		'txtEmail' => 'unique:users,email',
             'txtName' => 'required',
-            'txtPass' => 'required',
+            //'txtPass' => 'required',
             'level' => 'required',
             'txtEmail' => 'required',
     	],[
     		"txtEmail.unique"    => "Email đã tồn tại",
             "txtName.required" => "Name can't empty",
-            "txtPass.required" => "Password can't empty",
+            //"txtPass.required" => "Password can't empty",
             "level.required" => "Level can't empty",
             "txtEmail.required" => "Email can't empty"
     	]);
-
-		$user           = new User;
+        if (!$request->id) {
+            $user = new User();
+            return redirect('admin/users')->with('message','Create sucessfully');
+        } else {
+            $user = User::find($request->id);
+        }
         $user->name     = $request->txtName;
-		$user->email    = $request->txtEmail;
-		$user->password = bcrypt($request->txtPass);
-		$user->level    = $request->level;
-    	$user->save();
-    	return redirect('admin/users')->with('message','Thêm thành công');
+        $user->email    = $request->txtEmail;
+        $user->password = bcrypt($request->txtPass);
+        $user->level    = $request->level;
+        $user->save();
+        return redirect('admin/users')->with('message','Update Sucessfully');
+
+    	
+
         
     }
 
@@ -59,16 +68,7 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -78,21 +78,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        
+        $user =User::find($id);
+        return view('users.create',compact('user'));
         
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -103,5 +94,8 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+        $user =User::find($id);
+        $user->delete();
+        return redirect('admin/users')->with('message','Deleted sucessfully');
     }
 }

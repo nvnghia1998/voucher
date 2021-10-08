@@ -16,7 +16,7 @@
                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" href="{{route('list_users')}}">List users</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">Create</a>
+                        <a class="nav-link" href="{{route('create_users')}}">Create</a>
                     </nav>
                 </div>
                 <a class="nav-link collapsed" href="{{route('list_posts')}}" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">

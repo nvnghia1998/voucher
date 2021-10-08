@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <form>
+        {{-- <form>
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
                 <span class="caret"></span></button>
@@ -55,7 +55,10 @@
                   <li><a href="#">JavaScript</a></li>
                 </ul>
               </div>
-        </form>
+        </form> --}}
+        <button type="button" onclick="location.href='{{route('post_form')}}'" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+            Create new a post
+          </button>
         <table class="table table-hover">
             <thead>
               <tr>

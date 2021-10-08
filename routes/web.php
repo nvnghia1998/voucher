@@ -44,12 +44,21 @@ Route::group(['middleware' => [checkAdminLogin::class], 'prefix' => 'admin', 'na
         return view('admin.dasboard');
     });
     Route::get('logout', [App\Http\Controllers\Admin\AdminLoginController::class, 'getLogout'])->name('logout');
+
+    // Route user
     Route::get('users',[App\Http\Controllers\Admin\UserController::class,'index'])->name('list_users');
     Route::get('users/create',[App\Http\Controllers\Admin\UserController::class,'getform']);
+    Route::get('users/edit/{id}',[App\Http\Controllers\Admin\UserController::class,'edit'])->name('edit_users');
+    Route::get('users/deleted/{id}',[App\Http\Controllers\Admin\UserController::class,'detroy'])->name('deleted_users');
     Route::post('users/create',[App\Http\Controllers\Admin\UserController::class,'create'])->name('create_users');
+
+    // Route post
     // Route::group(['prefix => "posts'], function() {
     Route::get('posts',[App\Http\Controllers\Admin\PostController::class,'index'])->name('list_posts');
-    Route::post('posts/create',[App\Http\Controllers\Admin\PostController::class,'store'])->name('create_post');
+    Route::get('posts/create',[App\Http\Controllers\Admin\PostController::class,'getform'])->name('post_form');
+    Route::get('posts/edit/{id}',[App\Http\Controllers\Admin\PostController::class,'edit'])->name('edit_post');
+    Route::get('posts/deleted/{id}',[App\Http\Controllers\Admin\PostController::class,'detroy'])->name('deleted_post');
+    Route::post('posts/create',[App\Http\Controllers\Admin\PostController::class,'create'])->name('create_post');
     //});
     
     Route::get('category',[App\Http\Controllers\Admin\CategoryController::class,'index'])->name('list_cate');

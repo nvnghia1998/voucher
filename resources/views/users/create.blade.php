@@ -16,14 +16,14 @@
         <div class="form-group row mb-3">
           <label class="col-lg-3 col-form-label form-control-label">First name</label>
           <div class="col-lg-9">
-            <input class="form-control" type="text" name="txtName" value="">
+            <input class="form-control" type="text" name="txtName" value="{{$user->name}}">
           </div>
         </div>
        
         <div class="form-group row mb-3">
           <label class="col-lg-3 col-form-label form-control-label">Email</label>
           <div class="col-lg-9">
-            <input class="form-control" type="email" name="txtEmail" value="">
+            <input class="form-control" type="email" name="txtEmail" value="{{$user->email}}">
           </div>
         </div>
         
@@ -57,7 +57,7 @@
         <div class="form-group row mt-3 mb-3">
           <label class="col-lg-4 col-form-label form-control-label"></label>
           <div class="col-lg-8">
-            <input class="btn btn-secondary" type="" value="Cancel"> 
+            <input class="btn btn-secondary"  onclick="location.href='{{route('list_users')}}'" type="" value="Cancel"> 
             <input class="btn btn-primary" type="submit" value="Save Changes">
           </div>
         </div>
@@ -68,6 +68,7 @@
             @endforeach
         </ul>
     @endif
+    <input type="hidden" name="id" value="{{$user->id }}"/>
       </form>
      
       

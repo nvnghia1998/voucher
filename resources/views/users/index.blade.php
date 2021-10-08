@@ -3,9 +3,9 @@
 <div id="layoutSidenav_content">
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">List of Post</h1>
+        <h1 class="mt-4">List of Users</h1>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">Posts</li>
+            
         </ol>
         <div class="row">
             <div class="col-xl-3 col-md-6">
@@ -69,8 +69,8 @@
                             <td>{{$user->email}}</td>
                             <td>{{$user->level}}</td>
                             <td>{{$user->status}}</td>
-                            <td class="center"><i class="fa fa-trash-o fa-fw "></i><a href="admin/users/deleted/{{$user->id}}" class='btn-del'> Delete</a></td>
-                            <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="admin/users/edit/{{$user->id}}">Edit</a></td>
+                            <td class="center"><i class="fa fa-trash-o fa-fw "></i><a href="users/deleted/{{$user->id}}" class='btn-del'> Delete</a></td>
+                            <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="users/edit/{{$user->id}}">Edit</a></td>
                         </tr>
                         <?php $stt++;?>
                     @endforeach
