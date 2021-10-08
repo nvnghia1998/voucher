@@ -14,9 +14,15 @@ class AdminRegisterController extends Controller
     public function postRegister(Request $request) {
         
         $this->validate($request,[
-    		'txtEmail' => 'unique:users,email'
+    		'txtEmail' => 'unique:users,email',
+            'txtName' => 'required',
+            'txtPass' => 'required',
+            'txtEmail' => 'required'
     	],[
-    		"txtEmail.unique"    => "Email đã tồn tại",
+    		"txtEmail.unique"    => "Email is exist",
+            "txtPass.unique"    => "Password can't empty",
+            "txtName.required" => "Name can't empty",
+            "txtEmail.required" => "Email can't empty"
     	]);
 
 		$user           = new User;
@@ -25,9 +31,9 @@ class AdminRegisterController extends Controller
 		$user->password = bcrypt($request->txtPassword);
 		//$user->level    = $request->rdoQuyen;
     	if ($user->save()) {
-            return redirect()->back()->with('status', 'Đăng ký thành công');
+            return redirect()->back()->with('status', 'Register sucessfully');
         } else {
-            return redirect()->back()->with('status', 'Đăng ký không thành công');
+            return redirect()->back()->with('status', 'Registration failed');
         }
        
     	//return redirect('admin/user/them')->with('message','Thêm thành công');

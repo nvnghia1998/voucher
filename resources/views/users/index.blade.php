@@ -62,19 +62,18 @@
             </thead>
             <tbody>
                 <?php $stt = 1;?>
-                            @foreach($users as $user)
-                                <tr>
-                                    <th scope="row">{{$stt}}</th>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->email}}</td>
-                                    <td>{{$user->level}}</td>
-                                    <td>{{$user->status}}</td>
-                                    <td class="center"><i class="fa fa-trash-o fa-fw "></i><a href="admin/danh-muc/xoa/{{$user->id}}" class='btn-del'> Delete</a></td>
-                                    <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="admin/danh-muc/sua/{{$user->id}}">Edit</a></td>
-                                </tr>
-                                <?php $stt++;?>
-                            @endforeach
-              
+                    @foreach($users as $user)
+                        <tr>
+                            <th scope="row">{{$stt}}</th>
+                            <td>{{$user->name}}</td>
+                            <td>{{$user->email}}</td>
+                            <td>{{$user->level}}</td>
+                            <td>{{$user->status}}</td>
+                            <td class="center"><i class="fa fa-trash-o fa-fw "></i><a href="admin/users/deleted/{{$user->id}}" class='btn-del'> Delete</a></td>
+                            <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="admin/users/edit/{{$user->id}}">Edit</a></td>
+                        </tr>
+                        <?php $stt++;?>
+                    @endforeach
             </tbody>
           </table>
          {{-- Pagination --}}

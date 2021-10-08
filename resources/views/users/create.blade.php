@@ -9,60 +9,68 @@
       <h3 class="mb-0">User Information</h3>
     </div>
     <div class="card-body">
-      <form  action="users/create" method="POST">
+      <form action="{{ route('create_users') }}" method="post">
         
         {{ csrf_field() }}
-<input type="hidden" name="_method" value="PUT">
 
-        <div class="form-group row">
+        <div class="form-group row mb-3">
           <label class="col-lg-3 col-form-label form-control-label">First name</label>
           <div class="col-lg-9">
-            <input class="form-control" type="text" name="txtName" value="Jane">
+            <input class="form-control" type="text" name="txtName" value="">
           </div>
         </div>
        
-        <div class="form-group row">
+        <div class="form-group row mb-3">
           <label class="col-lg-3 col-form-label form-control-label">Email</label>
           <div class="col-lg-9">
-            <input class="form-control" type="email" name="txtEmail" value="email@gmail.com">
+            <input class="form-control" type="email" name="txtEmail" value="">
           </div>
         </div>
         
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <label class="col-lg-3 col-form-label form-control-label">Level</label>
             <div class="col-lg-9">
-              <select class="form-control" id="user_time_zone" size="0">
-                <option name ="level" value="0">
+              <select class="form-control" id="user_time_zone" name ="level" size="0">
+                <option  value="0">
                   User
                 </option>
-                <option  name ="level" value="1">
+                <option   value="1">
                   Admin
                 </option>
               </select>
             </div>
           </div>
          
-        <div class="form-group row">
+        <div class="form-group row mb-3">
           <label class="col-lg-3 col-form-label form-control-label">Password</label>
           <div class="col-lg-9">
-            <input class="form-control" type="password" name="txtPass" value="11111122333"> 
+            <input class="form-control" type="password" name="txtPass" value=""> 
             
           </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group row mb-3">
           <label class="col-lg-3 col-form-label form-control-label">Confirm</label>
           <div class="col-lg-9">
-            <input class="form-control" type="password" value="11111122333">
+            <input class="form-control" type="password" value="">
           </div>
         </div>
-        <div class="form-group row mt-3">
+        <div class="form-group row mt-3 mb-3">
           <label class="col-lg-4 col-form-label form-control-label"></label>
           <div class="col-lg-8">
             <input class="btn btn-secondary" type="" value="Cancel"> 
             <input class="btn btn-primary" type="submit" value="Save Changes">
           </div>
         </div>
+        @if (count($errors) >0)
+        <ul>
+            @foreach($errors->all() as $error)
+                <li class="text-danger"> {{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
       </form>
+     
+      
     </div>
   </div><!-- /form user info -->
 </div>

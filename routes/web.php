@@ -22,7 +22,6 @@ Route::post('register',[App\Http\Controllers\Admin\AdminRegisterController::clas
 
 
 
-
  });
 
  Route::get('/', function () {
@@ -46,12 +45,12 @@ Route::group(['middleware' => [checkAdminLogin::class], 'prefix' => 'admin', 'na
     });
     Route::get('logout', [App\Http\Controllers\Admin\AdminLoginController::class, 'getLogout'])->name('logout');
     Route::get('users',[App\Http\Controllers\Admin\UserController::class,'index'])->name('list_users');
-    Route::put('users/create',[App\Http\Controllers\Admin\UserController::class,'create'])->name('create_users');
+    Route::get('users/create',[App\Http\Controllers\Admin\UserController::class,'getform']);
+    Route::post('users/create',[App\Http\Controllers\Admin\UserController::class,'create'])->name('create_users');
     // Route::group(['prefix => "posts'], function() {
     Route::get('posts',[App\Http\Controllers\Admin\PostController::class,'index'])->name('list_posts');
-    Route::put('posts/create',[App\Http\Controllers\Admin\PostController::class,'create'])->name('create_post');
+    Route::post('posts/create',[App\Http\Controllers\Admin\PostController::class,'store'])->name('create_post');
     //});
     
     Route::get('category',[App\Http\Controllers\Admin\CategoryController::class,'index'])->name('list_cate');
 });
-Route::post('admin/posts/create',[App\Http\Controllers\Admin\PostController::class,'create'])->name('create_post');

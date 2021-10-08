@@ -17,29 +17,34 @@ class UserController extends Controller
         $users = User::paginate(3);
         return view('users.index',compact('users'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    
+    public function getform() {
+        return view('users.create');
+    }
+    public function create(Request $request)
     {
-        return view('users.create'); 
-        // var_dump($request);
-        // $this->validate($request,[
-    	// 	'txtEmail' => 'unique:users,email'
-    	// ],[
-    	// 	"txtEmail.unique"    => "Email đã tồn tại",
-    	// ]);
+       
+        $this->validate($request,[
+    		'txtEmail' => 'unique:users,email',
+            'txtName' => 'required',
+            'txtPass' => 'required',
+            'level' => 'required',
+            'txtEmail' => 'required',
+    	],[
+    		"txtEmail.unique"    => "Email đã tồn tại",
+            "txtName.required" => "Name can't empty",
+            "txtPass.required" => "Password can't empty",
+            "level.required" => "Level can't empty",
+            "txtEmail.required" => "Email can't empty"
+    	]);
 
-		// $user           = new User;
-        // $user->name     = $request->txtName;
-		// $user->email    = $request->txtEmail;
-		// $user->password = bcrypt($request->txtPass);
-		// $user->level    = $request->level;
-    	// $user->save();
-    	//return redirect('admin/user/them')->with('message','Thêm thành công');
+		$user           = new User;
+        $user->name     = $request->txtName;
+		$user->email    = $request->txtEmail;
+		$user->password = bcrypt($request->txtPass);
+		$user->level    = $request->level;
+    	$user->save();
+    	return redirect('admin/users')->with('message','Thêm thành công');
         
     }
 
@@ -74,6 +79,7 @@ class UserController extends Controller
     public function edit($id)
     {
         //
+        
     }
 
     /**
