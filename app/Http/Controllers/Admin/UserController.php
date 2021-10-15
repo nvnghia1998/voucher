@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(15);
+        $users = User::paginate(5);
         return view('users.index',compact('users'));
     }
     
@@ -41,16 +41,22 @@ class UserController extends Controller
     	]);
         if (!$request->id) {
             $user = new User();
+            $user->name     = $request->txtName;
+            $user->email    = $request->txtEmail;
+            $user->password = bcrypt($request->txtPass);
+            $user->level    = $request->level;
+            $user->save();
             return redirect('admin/users')->with('message','Create sucessfully');
         } else {
             $user = User::find($request->id);
+            $user->name     = $request->txtName;
+            $user->email    = $request->txtEmail;
+            $user->password = bcrypt($request->txtPass);
+            $user->level    = $request->level;
+            $user->save();
+            return redirect('admin/users')->with('message','Update Sucessfully');
         }
-        $user->name     = $request->txtName;
-        $user->email    = $request->txtEmail;
-        $user->password = bcrypt($request->txtPass);
-        $user->level    = $request->level;
-        $user->save();
-        return redirect('admin/users')->with('message','Update Sucessfully');
+       
 
     	
 

@@ -12,7 +12,7 @@ class Category extends Model
     protected $table = "category";
 
     public function post() {
-        return $this->belongsToMany(Post::class,'post_category', 'post_id', 'category_id');
+        return $this->belongsToMany(App\Models\Post::class,'category_post', 'post_id', 'category_id');
     }
 
 }

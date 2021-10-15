@@ -13,6 +13,6 @@ class Post extends Model
     protected $table = "post";
 
     public function post() {
-        return $this->belongsToMany(Category::class,'post_category', 'post_id', 'category_id');
+        return $this->belongsToMany(Category::class,'category_post', 'post_id', 'category_id');
     }
 }

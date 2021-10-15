@@ -80,8 +80,8 @@
                                     <td>{{$post->detail}}</td>
                                     <td>{{$post->voucher_quantity}}</td>
                                     <td>{{$post->view_count}}</td>
-                                    <td class="center"><i class="fa fa-trash-o fa-fw "></i><a href="admin/posts/deleted/{{$post->id}}" class='btn-del'> Delete</a></td>
-                                    <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="admin/posts/edit/{{$post->id}}">Edit</a></td>
+                                    <td class="center"><i class="fa fa-trash-o fa-fw "></i><a href="posts/deleted/{{$post->post_id}}" class='btn-del'> Delete</a></td>
+                                    <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="posts/edit/{{$post->post_id}}">Edit</a></td>
                                 </tr>
                                 <?php $stt++;?>
                             @endforeach

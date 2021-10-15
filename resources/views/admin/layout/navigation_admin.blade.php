@@ -19,11 +19,8 @@
                         <a class="nav-link" href="{{route('create_users')}}">Create</a>
                     </nav>
                 </div>
-                <a class="nav-link collapsed" href="{{route('list_posts')}}" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                    <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                    Posts
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
+               
+                    <a class="nav-link" href="{{route('list_posts')}}">Post</a>
                 
                 <div class="sb-sidenav-menu-heading">Addons</div>
                 <a class="nav-link" href="charts.html">

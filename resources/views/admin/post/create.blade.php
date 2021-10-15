@@ -31,10 +31,10 @@
             <label class="col-lg-3 col-form-label form-control-label">Category</label>
             <div class="col-lg-9">
               <select class="form-control" id="user_time_zone" name ="category_id" size="0">
-                {{-- @foreach($cate as $item)
-                <option value='{{$cate->category_id}}' >{{$cate->name}}</option>
-                @endforeach --}}
-                {{var_dump($cate)}}
+                @foreach($cate as $item)
+                <option value='{{$item->category_id}}' >{{$item->name}}</option>
+                @endforeach
+                
               </select>
               
             </div>
@@ -42,8 +42,7 @@
         <div class="form-group row mb-3">
         <label class="col-lg-3 col-form-label form-control-label">Detail</label>
         <div class="col-lg-9">
-            
-                <textarea class="form-control" name="detail" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <textarea class="form-control" name="detail" id="exampleFormControlTextarea1" rows="3"></textarea>
               
         </div>
         </div>
@@ -58,16 +57,16 @@
         </div>
         <fieldset class="form-group mb-3" >
             <div class="row">
-              <legend class="col-form-label col-sm-2 pt-0 col-lg-3">Anable</legend>
+              <legend class="col-form-label col-sm-2 pt-0 col-lg-3">Enable</legend>
               <div class="col-sm-10 col-lg-9">
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                  <input class="form-check-input" type="radio" name="voucher_enabled" id="gridRadios1" value="0" checked>
                   <label class="form-check-label" for="gridRadios1">
                     Show
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                  <input class="form-check-input" type="radio" name="voucher_enabled" id="gridRadios2" value="1">
                   <label class="form-check-label" for="gridRadios2">
                     Hidden
                   </label>
@@ -79,13 +78,13 @@
         <div class="form-group row mb-3">
           <label class="col-lg-3 col-form-label form-control-label">Quantity</label>
           <div class="col-lg-9">
-            <input class="form-control" type="number" name="voucher_quantity" value="">
+            <input class="form-control" type="number" name="voucher_quantity" value="{{$post->voucher_quantity}}">
           </div>
         </div>
         <div class="form-group row mb-3">
             <label class="col-lg-3 col-form-label form-control-label">Code</label>
             <div class="col-lg-9">
-              <input class="form-control" type="input" name="code" value="">
+              <input class="form-control" type="input" name="code" value="{{$post->code}}">
             </div>
           </div>
         <div class="form-group row mt-3 mb-3">
@@ -102,7 +101,7 @@
             @endforeach
         </ul>
     @endif
-    <input type="hidden" name="id" value="{{$post->id }}"/>
+    <input type="hidden" name="post_id" value="{{$post->post_id}}"/>
       </form>
      
       

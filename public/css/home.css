@@ -11,9 +11,9 @@ body {
     font-family: arial
 }
 
-.fl-left {
+/* .fl-left {
     float: left
-}
+} */
 
 .fl-right {
     float: right
@@ -32,8 +32,8 @@ h1 {
 }
 
 .card {
-    display: table-row;
-    width: 49%;
+    /* display: table-row;
+    width: 49%; */
     background-color: #fff;
     color: #989898;
     margin-bottom: 10px;
@@ -43,9 +43,9 @@ h1 {
     position: relative
 }
 
-.card+.card {
+/* .card+.card {
     margin-left: 2%
-}
+} */
 
 .date {
     display: table-cell;
@@ -139,7 +139,10 @@ h1 {
 .card-cont .even-date time span {
     display: block
 }
-
+.card {
+    display: block!important;
+    overflow: hidden;
+}
 .card-cont a {
     display: block;
     text-decoration: none;

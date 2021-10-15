@@ -45,9 +45,9 @@
                 </div>
             </div>
         </div>
-        <form>
-            
-        </form>
+        <button type="button" onclick="location.href='{{route('form_create_user')}}'" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+            Create new a user
+          </button>
         <table class="table table-hover">
             <thead>
               <tr>

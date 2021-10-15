@@ -30,12 +30,14 @@ class AdminLoginController extends Controller
             $id = Auth::user()->id;
             $user = User::find($id);
             $user->status = 1;
+            $user->date_login = now();
             $user->save();
             
-            return redirect('admin/dasboard');
-        } else {
-            return redirect()->back()->with('status', 'Email hoặc Password không chính xác');
+            return redirect()->intended('admin/dasboard');
         }
+        // } else {
+        //     return redirect()->back()->with('status', 'Email hoặc Password không chính xác');
+        // }
     }
 
     public function getLogout()

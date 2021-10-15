@@ -29,6 +29,7 @@ class PostController extends Controller
     public function getform() {
         $post = new Post();
         $cate =  Category::all();
+        //var_dump($cate);
        //dd($cate->toArray());
         return view('admin.post.create',compact('post','cate'));
 
@@ -38,26 +39,31 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-       
-        // if ($id && !$request) {
-        $post = new Post();
-        //     dd($post);
-           return view('admin.post.create',compact('$post'));
-        // }
-
-        // if(!$id && $request) {
+      
+        if (!$request->post_id) {
+           
+            $post = new Post();
+            $post->title     = $request->title;
+            $post->slug_name     = $request->slug_name;
+            //$post->category_id     = $request->category_id;
+            $post->detail     = $request->detail;
+            $post->image     = $request->image;
+            $post->voucher_enabled     = $request->voucher_enabled;
+            $post->code     = $request->code;
+            $post->save();
+           
+            return redirect('admin/posts')->with('message','Create sucessfully');
+        }  else {
+            $post = Post::where("post_id",$request->post_id)->get();
             
-        //     Post::create($request);
-        //     return view('admin.post.create');
-        // } 
-
-        // if(!$id && !$request) {
-        //     die('FFF');
-        //     return view('admin.post.create');
-        // }
-        
+            $post[0]->title     = $request->title;
+            //dd($post->title);
+            $post[0]->save();
+            return redirect('admin/posts')->with('message','Update Sucessfully');
+        }
+       
     }
 
     /**
@@ -90,7 +96,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+       
+        $post = Post::where("post_id",'=', $id)->first();
+        $cate = Category::all();
+        return view('admin.post.create',compact('post','cate'));
     }
 
     /**
@@ -113,8 +122,9 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $coupon = Post::find($id);
-    	$coupon->delete();
+       
+        $post = Post::where("post_id",'=', $id)->delete();
+    	//$post->delete();
 
     	return redirect('admin/posts')->with('message','Xóa thành công');
     }
