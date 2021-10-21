@@ -140,10 +140,11 @@ class HomeController extends Controller
     public function create_voucher($id, Request $request) {
         if(Auth::check()) {
             try { 
-                DB::beginTransaction(); 
+                DB::beginTransaction();
+                // Giam so luong voucher 
                 DB::table('post')->where('post_id',$id)->decrement('voucher_quantity', 1); 
                 $post = DB::table('post')->select('voucher_quantity')->where('post_id',$id)->first();
-                sleep(4);
+                //sleep(4);
                 if ($post->voucher_quantity >= 0) {
                     $voucher = [
                         'user_id' => Auth::user()->id,
@@ -151,6 +152,8 @@ class HomeController extends Controller
                         'code' => $this->randomString(8),
                         'created_at' => now()
                     ];
+
+                    // Them voucher code vao bang
                     DB::table('vouchers')->insert($voucher); 
                     $quantity = (array)DB::table('post')->select('voucher_quantity')->where('post_id',$id)->first();
                     DB::commit();

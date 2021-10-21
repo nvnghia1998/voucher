@@ -19,7 +19,6 @@ class EditPostController extends Controller
 
     public function check_permission($id)
     {
-
         DB::beginTransaction(); 
         try {
             $this->user->events()->attach($id,['expire_time'=> Carbon::now()->addMinutes(5)]);
@@ -33,7 +32,7 @@ class EditPostController extends Controller
             DB::rollBack();
             return response()->json([
                 'status' => 'fail',
-                'message' => 'Sorry, You haven\'t permision editting this post',
+                'message' => 'You haven\'t permission editting this post',
                 'code' => 409
             ], 409);
         }
@@ -44,20 +43,21 @@ class EditPostController extends Controller
         $event = DB::table('event_user')->where('event_id', $id)->first();
         DB::beginTransaction(); 
         try {
+            // Neu thoi gian cho phep edit đa het
             if ($event->expire_time < now()) {
                 DB::table('event_user')->delete($event->id);
                 return response()->json([
                     'status' => 'success',
-                    'message' => 'Permision editing release',
+                    'message' => 'Permission to edit the post is release',
                     'code' => 200
                 ],200);
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'You can\'t relese',
-                    'time_out' => date("i:s",strtotime($event->expire_time) - strtotime("now")),
-                    'code' => 202
-                ],202);
+                    'message' => 'You can\'t release permission of this the post',
+                    'expire time' => date("i:s",strtotime($event->expire_time) - strtotime("now")),
+                    'code' => 409
+                ],409);
             }
             DB::commit();
             
@@ -65,7 +65,7 @@ class EditPostController extends Controller
             DB::rollBack();
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, You haven\'t permision editting this post'
+                'message' => 'You can\'t release permission of this the post'
             ], 409);
         }
     }
@@ -89,16 +89,15 @@ class EditPostController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'You have been extend time success',
-                    'time_out' => $time_out,
+                    'expire time' => $time_out,
                     'code' => 200
                 ],200);
-            
             }
         } catch (\Exception $exception) {
             DB::rollBack();
             return response()->json([
                 'success' => false,
-                'message' => 'Sorry, You haven\'t permision editting this post'
+                'message' => 'You can\'t extend more time edit this post '
             ], 409);
         }
     }
