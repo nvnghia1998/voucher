@@ -56,7 +56,7 @@ class HomeController extends Controller
         
        
         $post = Post::where('post_id',$id)->first();
-        
+        $code = '';
         if(Auth::check()) {
            
             // Save count view
@@ -71,16 +71,80 @@ class HomeController extends Controller
            
             return view('detail_post',compact('post','code'));
         }
-        return view('detail_post',compact('post'));
+        return view('detail_post',compact('post','code'));
     }
+
+    // public function create_voucher($id, Request $request) {
+       
+
+    //     if(Auth::check()) {
+    //         // $code = DB::table('vouchers')->where('post_id',$id)->where('user_id',Auth::user()->id)->first();
+    //         // $quantity =[];
+    //         // if ($code) {
+    //         //     return json_encode([
+    //         //         'success'=> false,
+    //         //         'message' => 'You have been given a code'
+    //         //     ]);
+    //         // }
+           
+            
+            
+    //         try { 
+    //             DB::beginTransaction(); 
+    //             $voucher = [];
+    //             DB::table('post')->where('post_id',$id)->update(['voucher_quantity'=> DB::raw('voucher_quantity-1')]);
+    //             //$post = DB::table('post')->select('voucher_quantity')->where('post_id',$id)->where('voucher_quantity','>=',0)->first();
+    //             $post = DB::table('post')->where('post_id',$id)->first();
+    //             //var_dump($post);die();
+    //             //sleep(5);
+    //             var_dump($post->voucher_quantity);
+                
+    //             if ($post->voucher_quantity > 0) {
+    //                 $voucher = [
+    //                     'user_id' => Auth::user()->id,
+    //                     'post_id' => $id,
+    //                     'code' => $this->randomString(8),
+    //                     'created_at' => now()
+    //                 ];
+    //                 DB::table('vouchers')->insert($voucher);
+                    
+    //                 //DB::table('post')->where('post_id',$id)->update(['voucher_quantity'=> DB::raw('voucher_quantity-1')]);
+    //                 $quantity = (array)DB::table('post')->select('voucher_quantity')->where('post_id',$id)->first();
+    //                 DB::commit();
+    //                 return json_encode([
+    //                     'success'=> true,
+    //                     'code' => $voucher['code'],
+    //                     'quantity' => $quantity['voucher_quantity'],//$post->voucher_quantity,
+    //                     'message' => 'Voucher is created'
+    //                 ]);
+    //             } else  {
+                    
+    //                 DB::rollBack();
+    //                 return json_encode(
+    //                     [
+    //                         'success'=> false,'message' => 'There is no more available voucher',
+    //                         'quantity' => 0
+    //                     ]);
+    //             }
+                
+    //         } catch (\Exception $e) { 
+    //             DB::rollBack();
+    //             return json_encode(['success'=> false,'message' => 'There is no more available voucher']);
+    //         }
+    //     } else {
+    //         return json_encode(['success'=> false,'message' => 'Please login before get vouche code']);
+    //     }
+        
+    // }
 
     public function create_voucher($id, Request $request) {
         if(Auth::check()) {
-            DB::beginTransaction(); 
-            $voucher = [];
             try { 
-                $post = (array)DB::table('post')->select('voucher_quantity')->where('post_id',$id)->where('voucher_quantity','>',0)->first();
-                if ($post) {
+                DB::beginTransaction(); 
+                DB::table('post')->where('post_id',$id)->decrement('voucher_quantity', 1); 
+                $post = DB::table('post')->select('voucher_quantity')->where('post_id',$id)->first();
+                sleep(4);
+                if ($post->voucher_quantity >= 0) {
                     $voucher = [
                         'user_id' => Auth::user()->id,
                         'post_id' => $id,
@@ -88,15 +152,26 @@ class HomeController extends Controller
                         'created_at' => now()
                     ];
                     DB::table('vouchers')->insert($voucher); 
-                    DB::table('post')->where('post_id',$id)->update(['voucher_quantity'=> $post['voucher_quantity'] - 1]); 
+                    $quantity = (array)DB::table('post')->select('voucher_quantity')->where('post_id',$id)->first();
                     DB::commit();
-                    return json_encode(['success'=> true,'code' => $voucher['code'],'message' => 'Voucher is created']);
+                    return json_encode([
+                        'success'=> true,
+                        'code' => $voucher['code'],
+                        'quantity' => $quantity['voucher_quantity'],
+                        'message' => 'Voucher is created'
+                    ]);
                 } else  {
-                    return json_encode(['success'=> false,'message' => 'There is no more available voucher']);
+                    return json_encode(
+                        [
+                            'success'=> false,'message' => 'There is no more available voucher',
+                            'quantity' => 0
+                        ]
+                    );
                 }
                 
             } catch (\Exception $e) { 
                 DB::rollBack();
+                return json_encode(['success'=> false,'message' => 'There is no more available voucher']);
             }
         } else {
             return json_encode(['success'=> false,'message' => 'Please login before get vouche code']);

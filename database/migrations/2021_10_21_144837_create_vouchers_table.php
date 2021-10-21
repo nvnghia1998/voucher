@@ -20,6 +20,7 @@ class CreateVouchersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('post_id')->unsigned()->index();
             $table->foreign('post_id')->references('post_id')->on('post');
+            $table->unique(['user_id','post_id']);
             $table->string("code",20);
             $table->timestamps();
         });

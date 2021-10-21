@@ -36,7 +36,6 @@ body {
 </style>
 </head>
 <body>
-
 <div class="coupon">
   <div class="container">
     <h3>{{$post->title}}</h3>
@@ -50,7 +49,8 @@ body {
 	{{ csrf_field() }}
 	<div class="container">
 		<button type="button" class="btn btn-primary" id="create_code1">Create code</button>
-		<input type="text" class="code_voucher" value=""  disabled>
+		<input type="text" class="code_voucher" value="{{$code[0]->code ?? ''}} "  disabled>
+		<p class="quantity mt-3">Quantity: {{$post->voucher_quantity}}</p>
 		<p class="expire">Expires: Jan 03, 2021</p>
 	</div>
   </form>
@@ -69,9 +69,14 @@ $(document).ready(function(){
             success: function(data) {
 				if(data.success) {
 					form.find('input.code_voucher').val(data.code);
+					form.find('.quantity').html("Quantity:"+data.quantity);
+					
 					Swal.fire("Create voucher is success", data.message+': '+data.code, "success");
+					
+					
 				} else {
 					Swal.fire('Create voucher is failed',data.message,'error');
+					form.find('.quantity').html("Quantity:"+data.quantity);
 				}
             },
             errors: function(){

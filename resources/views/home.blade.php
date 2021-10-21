@@ -58,7 +58,7 @@
         
     <section class="container" style="background-color: #dadde6;"> 
         <div class="row">
-            <div class="col-3">col-8</div>
+            <div class="col-3"></div>
             <div class="col-9">
                 <div class="filter">
                     <div class="grid">
@@ -80,7 +80,7 @@
                                   </div>
                                 
                             </div>
-                            <div class='col-12 col-sm-12 col-md-6 col-lg-6  small--text-center collection-sorting grid__item medium-up--two-thirds mt-3'>
+                            {{-- <div class='col-12 col-sm-12 col-md-6 col-lg-6  small--text-center collection-sorting grid__item medium-up--two-thirds mt-3'>
                                 <div class="collection-sorting__dropdown">
                                     <label for="itemsOnPage" class="label--hidden" >Limmit</label>
                                     <select name="itemsOnPage" id="itemsOnPage">
@@ -90,7 +90,7 @@
                                           <option value="25">25 sản phẩm</option>
                                     </select>
                                   </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>

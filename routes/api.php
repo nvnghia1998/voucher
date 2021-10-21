@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\EditPostController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,4 +17,27 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+// Route::group([
+//     'middleware' => 'api',
+//     'prefix' => 'auth'
+
+// ], function ($router) {
+//     Route::post('/login', [AuthController::class, 'login']);
+//     Route::post('/register', [AuthController::class, 'register']);
+    
+//     Route::post('/refresh', [AuthController::class, 'refresh']);
+//     Route::get('/user-profile', [AuthController::class, 'userProfile']);    
+// });
+Route::post('login', [AuthController::class, 'authenticate']);
+Route::post('register', [AuthController::class, 'register']);
+
+Route::group(['middleware' => ['jwt.verify']], function() {
+    Route::get('logout', [AuthController::class, 'logout']);
+    Route::get('get_user', [AuthController::class, 'get_user']);
+    Route::get('events/{event_id}/editable/me', [EditPostController::class, 'check_permission']);
+    Route::get('events/{event_id}/editable/release', [EditPostController::class, 'release']);
+    Route::get('events/{event_id}/editable/maintain', [EditPostController::class, 'extend_time']);
+    
 });

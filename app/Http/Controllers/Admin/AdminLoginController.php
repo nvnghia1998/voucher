@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+//use Auth;
 class AdminLoginController extends Controller
 {
     public function getLogin()
@@ -35,9 +36,9 @@ class AdminLoginController extends Controller
             
             return redirect()->intended('admin/dasboard');
         }
-        // } else {
-        //     return redirect()->back()->with('status', 'Email hoặc Password không chính xác');
-        // }
+        else {
+            return redirect()->back()->with('status', 'Email hoặc Password không chính xác');
+        }
     }
 
     public function getLogout()
