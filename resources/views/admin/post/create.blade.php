@@ -14,9 +14,12 @@
         {{ csrf_field() }}
 
         <div class="form-group row mb-3">
-          <label class="col-lg-3 col-form-label form-control-label">Title</label>
-          <div class="col-lg-9">
+          	<label class="col-lg-3 col-form-label form-control-label">Title</label>
+          	<div class="col-lg-9">
             <input class="form-control" type="text" name="title" value="{{$post->title}}">
+			@error('title')
+				<div class="alert alert-danger">{{ $message }}</div>
+			@enderror
           </div>
         </div>
        
@@ -32,11 +35,13 @@
             <div class="col-lg-9">
               <select class="form-control" id="user_time_zone" name ="category_id" size="0">
                 @foreach($cate as $item)
-                <option value='{{$item->category_id}}' >{{$item->name}}</option>
+                <option value='{{$item->id}}' >{{$item->name}}</option>
                 @endforeach
                 
               </select>
-              
+			  @error('category_id')
+			  <div class="alert alert-danger">{{ $message }}</div>
+		  	@enderror
             </div>
           </div>
         <div class="form-group row mb-3">
@@ -79,7 +84,11 @@
           <label class="col-lg-3 col-form-label form-control-label">Quantity</label>
           <div class="col-lg-9">
             <input class="form-control" type="number" name="voucher_quantity" value="{{$post->voucher_quantity}}">
-          </div>
+		</select>
+		@error('voucher_quantity')
+		<div class="alert alert-danger">{{ $message }}</div>
+	@enderror
+		</div>
         </div>
         <div class="form-group row mb-3">
             <label class="col-lg-3 col-form-label form-control-label">Code</label>
@@ -94,14 +103,7 @@
             <input class="btn btn-primary" type="submit" value="Save Changes">
           </div>
         </div>
-        @if (count($errors) >0)
-        <ul>
-            @foreach($errors->all() as $error)
-                <li class="text-danger"> {{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
-    <input type="hidden" name="post_id" value="{{$post->post_id}}"/>
+    <input type="hidden" name="id" value="{{$post->id}}"/>
       </form>
      
       

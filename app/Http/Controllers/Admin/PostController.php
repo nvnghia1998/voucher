@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
-
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\PortFormRequest;
 class PostController extends Controller
 {
     /**
@@ -14,23 +16,17 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    const NUMBER_POST_OF_PAGE = 5;
+
     public function index(Request $request)
     {
-       
-        if (empty($request->contacts)) {
-            $posts = Post::paginate(3);
-            return view("admin.post.index",compact('posts'));
-        } else {
-            
-        }
-
+        $posts = Post::paginate(self::NUMBER_POST_OF_PAGE);
+        return view("admin.post.index",compact('posts'));
     }
 
     public function getform() {
         $post = new Post();
         $cate =  Category::all();
-        //var_dump($cate);
-       //dd($cate->toArray());
         return view('admin.post.create',compact('post','cate'));
 
     }
@@ -39,28 +35,33 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(PortFormRequest $request)
     {
-      
-        if (!$request->post_id) {
-           
+        if (!$request->id) {
+
             $post = new Post();
             $post->title     = $request->title;
             $post->slug_name     = $request->slug_name;
-            //$post->category_id     = $request->category_id;
             $post->detail     = $request->detail;
             $post->image     = $request->image;
             $post->voucher_enabled     = $request->voucher_enabled;
+            $post->voucher_quantity     = $request->voucher_quantity;
             $post->code     = $request->code;
+
             $post->save();
-           
+            Post::find($post->id)->category()->attach($request->category_id);
+
             return redirect('admin/posts')->with('message','Create sucessfully');
+
         }  else {
-            $post = Post::where("post_id",$request->post_id)->get();
+            $post = Post::where("id",$request->id)->first();
+            $data = $request->all();
+            unset($data['_token']);
+            unset($data['category_id']);
+
+            DB::table('post')->where('id',$request->id)->update($data);
+            DB::table('category_post')->where('post_id',$request->id)->update(['category_id'=>$request->category_id]);
             
-            $post[0]->title     = $request->title;
-            //dd($post->title);
-            $post[0]->save();
             return redirect('admin/posts')->with('message','Update Sucessfully');
         }
        
@@ -96,12 +97,16 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-       
-        $post = Post::where("post_id",'=', $id)->first();
+        $post = Post::where("id",'=', $id)->first();
         $cate = Category::all();
         return view('admin.post.create',compact('post','cate'));
     }
 
+    public function destroy($id)
+    {
+        $post = Post::where("id",'=', $id)->delete();
+    	return redirect('admin/posts')->with('message','Xóa thành công');
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -112,20 +117,5 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-       
-        $post = Post::where("post_id",'=', $id)->delete();
-    	//$post->delete();
-
-    	return redirect('admin/posts')->with('message','Xóa thành công');
     }
 }

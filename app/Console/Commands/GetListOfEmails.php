@@ -55,9 +55,6 @@ class GetListOfEmails extends Command
                        'user_id' => $item['id'],
                        'time' => now()
                    ];
-                    // Mail::send('admin.mail', array('name'=> $item['name'],'email'=>$item["email"]), function($message)use ($item){
-                    //     $message->to($item["email"], 'Visitor')->subject('Visitor Feedback!');
-                    // });
                 }
                
                 DB::table('tracking_mails')->insert($data);
@@ -79,14 +76,6 @@ class GetListOfEmails extends Command
                         'time' => now()
                     ];
                 }
-            
-                    // Mail::send('admin.post_email', array('post_id'=> $item['post_id'],'title'=>$item["title"], 'created_at'=>$item["created_at"]), 
-                    //     function($message) use ($admins){
-                    //         $message->to($admins, 'Visitor')
-                    //                 ->subject('Visitor Feedback!');
-                    //     }
-                    // );   
-
             }
             DB::table('tracking_mails')->insert($data);
         }

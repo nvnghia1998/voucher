@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Http\Requests\UserFormRequest;
+use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
     /**
@@ -21,24 +23,9 @@ class UserController extends Controller
     public function getform() {
         $user = new User();
         return view('users.create', compact('user'));
-
     }
-    public function create(Request $request)
+    public function create(UserFormRequest $request)
     {
-       
-        $this->validate($request,[
-    		'txtEmail' => 'unique:users,email',
-            'txtName' => 'required',
-            //'txtPass' => 'required',
-            'level' => 'required',
-            'txtEmail' => 'required',
-    	],[
-    		"txtEmail.unique"    => "Email đã tồn tại",
-            "txtName.required" => "Name can't empty",
-            //"txtPass.required" => "Password can't empty",
-            "level.required" => "Level can't empty",
-            "txtEmail.required" => "Email can't empty"
-    	]);
         if (!$request->id) {
             $user = new User();
             $user->name     = $request->txtName;
@@ -48,19 +35,16 @@ class UserController extends Controller
             $user->save();
             return redirect('admin/users')->with('message','Create sucessfully');
         } else {
-            $user = User::find($request->id);
-            $user->name     = $request->txtName;
-            $user->email    = $request->txtEmail;
-            $user->password = bcrypt($request->txtPass);
-            $user->level    = $request->level;
-            $user->save();
+            $data = [
+                'name' => $request->txtName,
+                'email' => $request->txtEmail,
+                'password'=> bcrypt($request->txtPass),
+                'level' => $request->level
+            ];
+
+            DB::table('users')->where('id',$request->id)->update($data);
             return redirect('admin/users')->with('message','Update Sucessfully');
         }
-       
-
-    	
-
-        
     }
 
     /**
@@ -84,12 +68,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        
         $user =User::find($id);
         return view('users.create',compact('user'));
-        
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -99,7 +80,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
         $user =User::find($id);
         $user->delete();
         return redirect('admin/users')->with('message','Deleted sucessfully');

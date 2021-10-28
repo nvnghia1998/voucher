@@ -23,11 +23,9 @@ class AdminLoginController extends Controller
         $login = [
             'email' => $request->txtEmail,
             'password' => $request->txtPassword,
-            // 'level' => 1,
-            // 'status' => 1
         ];
+        
         if (Auth::attempt($login)) {
-            
             $id = Auth::user()->id;
             $user = User::find($id);
             $user->status = 1;

@@ -53,21 +53,20 @@ class HomeController extends Controller
     }
 
     public function detail($id){
-        
-       
-        $post = Post::where('post_id',$id)->first();
+        $post = Post::where('id',$id)->first();
         $code = '';
         if(Auth::check()) {
-           
             // Save count view
             $tracker  = new Tracker();
             $tracker->user_id = Auth::user()->id;
             $tracker->post_id = $id;
             $tracker->save();
 
-            // Get voucher code của user
+            // Get voucher code of user
             $code = User::find(Auth::user()->id)->vouchers;
-            Post::where('post_id',$id)->update(['view_count'=>$post->view_count + 1]);
+
+            // Increment view
+            Post::where('id',$id)->increment('view_count', 1);
            
             return view('detail_post',compact('post','code'));
         }
@@ -139,8 +138,8 @@ class HomeController extends Controller
 
     public function create_voucher($id, Request $request) {
         if(Auth::check()) {
+            DB::beginTransaction();
             try { 
-                DB::beginTransaction();
                 // Giam so luong voucher 
                 DB::table('post')->where('post_id',$id)->decrement('voucher_quantity', 1); 
                 $post = DB::table('post')->select('voucher_quantity')->where('post_id',$id)->first();
@@ -164,6 +163,7 @@ class HomeController extends Controller
                         'message' => 'Voucher is created'
                     ]);
                 } else  {
+                    DB::commit();
                     return json_encode(
                         [
                             'success'=> false,'message' => 'There is no more available voucher',

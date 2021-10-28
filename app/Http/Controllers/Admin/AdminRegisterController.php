@@ -29,21 +29,11 @@ class AdminRegisterController extends Controller
 		$user->name     = $request->txtName;
 		$user->email    = $request->txtEmail;
 		$user->password = bcrypt($request->txtPassword);
-		//$user->level    = $request->rdoQuyen;
+		
     	if ($user->save()) {
             return redirect()->back()->with('status', 'Register sucessfully');
         } else {
             return redirect()->back()->with('status', 'Registration failed');
         }
-       
-    	//return redirect('admin/user/them')->with('message','Thêm thành công');
-        //var_dump($request);
-        //return view('admin.register');
-        
-        // return User::create([
-        //     'name' => $data['name'],
-        //     'email' => $data['email'],
-        //     'password' => Hash::make($data['password']),
-        // ]);
     }
 }

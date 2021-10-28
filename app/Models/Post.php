@@ -12,7 +12,7 @@ class Post extends Model
 
     protected $table = "post";
 
-    public function post() {
-        return $this->belongsToMany(Category::class,'category_post', 'post_id', 'category_id');
+    public function category() {
+        return $this->belongsToMany(Category::class,'category_post', 'post_id','category_id' );
     }
 }

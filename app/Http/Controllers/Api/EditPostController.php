@@ -19,7 +19,7 @@ class EditPostController extends Controller
 
     public function check_permission($id)
     {
-        DB::beginTransaction(); 
+        DB::beginTransaction();
         try {
             $this->user->events()->attach($id,['expire_time'=> Carbon::now()->addMinutes(5)]);
             DB::commit();
@@ -40,27 +40,19 @@ class EditPostController extends Controller
 
     public function release($id)
     {
-        $event = DB::table('event_user')->where('event_id', $id)->first();
+        $event = DB::table('event_user')->where('user_id', $this->user->id)->where('event_id', $id)->first();
         DB::beginTransaction(); 
         try {
-            // Neu thoi gian cho phep edit đa het
-            if ($event->expire_time < now()) {
+            if ($event) {
                 DB::table('event_user')->delete($event->id);
+                $this->user->events()->detach($id);
+                DB::commit();
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Permission to edit the post is release',
                     'code' => 200
                 ],200);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'You can\'t release permission of this the post',
-                    'expire time' => date("i:s",strtotime($event->expire_time) - strtotime("now")),
-                    'code' => 409
-                ],409);
-            }
-            DB::commit();
-            
+            } 
         } catch (\Exception $exception) {
             DB::rollBack();
             return response()->json([
@@ -72,7 +64,7 @@ class EditPostController extends Controller
 
     public function extend_time($id)
     {
-        $event = DB::table('event_user')->where('event_id', $id)->first();
+        $event = DB::table('event_user')->where('user_id', $this->user->id)->where('event_id', $id)->first();
         
         DB::beginTransaction(); 
         try {

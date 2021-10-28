@@ -2,9 +2,10 @@
 
 namespace App\Console;
 
+use Illuminate\Console\Command;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-
+use Illuminate\Support\Facades\DB;
 class Kernel extends ConsoleKernel
 {
     /**
@@ -14,7 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\GetListOfEmails::class,
-        Commands\SendEmails::class
+        Commands\SendEmails::class,
+        Commands\DeletePermissionEdit::class
     ];
 
     /**
@@ -26,6 +28,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        // $schedule->call(function () {
+        //     DB::table('event_user')->where('expire_time', '<', Carbon::now())->delete();
+        // })->everyMinute();
+        //$schedule->command('command:name')->everyMinutes();
     }
 
     /**

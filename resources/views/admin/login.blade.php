@@ -33,7 +33,7 @@
                                                 <li class="text-danger"> {{ session('status') }}</li>
                                             </ul>
                                         @endif
-                                        <form action="login" method="POST">
+                                        <form action="{{route('login')}}" method="POST">
                                             {{csrf_field()}}
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="inputEmail" name="txtEmail" type="email" value="{{old('txtEmail')}}" placeholder="name@example.com" />
@@ -81,3 +81,4 @@
         <script src="{{ URL::to ('admin_asset/js/scripts.js')}}"></script>
     </body>
 </html>
+
